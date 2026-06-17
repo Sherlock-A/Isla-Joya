@@ -19,11 +19,12 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'OPTIONS'],
 
-    'allowed_origins' => [
+    'allowed_origins' => array_filter([
         'http://localhost:3000',
         'https://islajoya.com',
         'https://www.islajoya.com',
-    ],
+        env('FRONTEND_URL'),           // Vercel preview + production URL
+    ]),
 
     'allowed_origins_patterns' => [],
 

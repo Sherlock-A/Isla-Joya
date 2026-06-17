@@ -1,0 +1,38 @@
+# Fly.io configuration — Isla Joya Laravel API
+# Deploy: fly launch --no-deploy  (first time)
+#         fly deploy               (subsequent)
+
+app            = "isla-joya-api"
+primary_region = "cdg"
+
+[build]
+  dockerfile = "Dockerfile"
+
+# Non-secret env vars (secrets go via: fly secrets set KEY=value)
+[env]
+  APP_ENV         = "production"
+  APP_DEBUG       = "false"
+  LOG_CHANNEL     = "stderr"
+  LOG_LEVEL       = "error"
+  CACHE_DRIVER    = "file"
+  SESSION_DRIVER  = "file"
+  QUEUE_CONNECTION = "sync"
+  DB_CONNECTION   = "mysql"
+  DB_PORT         = "4000"
+
+[http_service]
+  internal_port        = 8080
+  force_https          = true
+  auto_stop_machines   = "stop"
+  auto_start_machines  = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type       = "connections"
+    soft_limit = 25
+    hard_limit = 30
+
+[[vm]]
+  memory   = "256mb"
+  cpu_kind = "shared"
+  cpus     = 1

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 class Event extends Model
 {
     protected $fillable = [
-        'event', 'source', 'product_slug', 'product_name', 'page', 'country', 'ts',
+        'event', 'session_id', 'source', 'product_slug', 'product_name',
+        'page', 'country', 'ts', 'utm_source', 'utm_medium', 'utm_campaign', 'device_type',
     ];
 
     public function scopeByEvent(Builder $query, string $event): Builder

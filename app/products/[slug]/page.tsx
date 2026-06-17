@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchAllProducts, fetchByCategory, fetchProduct, STORAGE_URL } from "@/lib/products";
 import { ProductDetail } from "@/components/sections/ProductDetail";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { RecommendedSection } from "@/components/sections/RecommendedSection";
+import { StickyOrderBar } from "@/components/ui/StickyOrderBar";
+import { RecentlyViewedTracker } from "@/components/ui/RecentlyViewedTracker";
+import { RecentlyViewed } from "@/components/ui/RecentlyViewed";
 import { site } from "@/lib/site";
 
 export async function generateStaticParams() {
@@ -47,6 +50,7 @@ export default async function ProductPage(
   const product = await fetchProduct(slug);
   if (!product) notFound();
 
+  const allProducts = await fetchAllProducts();
   const related = (await fetchByCategory(product.category))
     .filter((p) => p.slug !== slug)
     .slice(0, 4);
@@ -82,24 +86,15 @@ export default async function ProductPage(
 
   return (
     <main className="min-h-screen bg-ivory pt-20">
+      <RecentlyViewedTracker product={product} />
       <ProductDetail product={product} />
 
-      {related.length > 0 && (
-        <section className="mx-auto max-w-5xl px-6 pb-20 sm:px-8">
-          <div className="mb-8 border-t border-noir/10 pt-12">
-            <p className="eyebrow text-center text-[11px]">Vous aimerez aussi</p>
-            <h2 className="mt-2 text-center font-display text-2xl text-noir">Produits similaires</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {related.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
+      <RecentlyViewed excludeSlug={slug} />
+      <RecommendedSection reference={product} pool={allProducts} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <StickyOrderBar productName={product.name} material={product.material} price={product.price} />
     </main>
   );
 }

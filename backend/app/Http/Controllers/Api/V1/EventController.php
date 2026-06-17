@@ -18,11 +18,16 @@ class EventController extends Controller
             Event::create([
                 'event'        => $body['event'] ?? null,
                 'ts'           => $body['ts'] ?? null,
+                'session_id'   => $payload['session_id'] ?? null,
                 'source'       => $payload['source'] ?? null,
                 'product_slug' => $payload['productSlug'] ?? null,
                 'product_name' => $payload['productName'] ?? null,
                 'page'         => $payload['page'] ?? null,
                 'country'      => $payload['country'] ?? null,
+                'utm_source'   => $payload['utm_source'] ?? null,
+                'utm_medium'   => $payload['utm_medium'] ?? null,
+                'utm_campaign' => $payload['utm_campaign'] ?? null,
+                'device_type'  => $payload['device_type'] ?? null,
             ]);
         } catch (\Throwable) {
             // analytics must never return an error

@@ -61,6 +61,22 @@
   70%  { box-shadow: 0 0 0 16px rgb(198 161 91 / 0); }
   100% { box-shadow: 0 0 0 0 rgb(198 161 91 / 0); }
 }
+@keyframes ping-gold {
+  0%   { transform: scale(1);   opacity: 0.65; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50%       { transform: translateY(7px); opacity: 0.2; }
+}
+@keyframes text-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+@keyframes clip-reveal-h {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
 
 /* ============================================================
    Base
@@ -152,4 +168,114 @@
 .rule-gold {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Shimmer gradient text */
+.text-shimmer {
+  background: linear-gradient(
+    120deg,
+    var(--color-gold-600) 0%,
+    var(--color-champagne) 40%,
+    var(--color-gold) 60%,
+    var(--color-gold-300) 100%
+  );
+  background-size: 200% auto;
+  animation: text-shimmer 4s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 3D card glow — ambient radial on hover */
+.card-glow { position: relative; }
+.card-glow::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgb(198 161 91 / 0.32), transparent 72%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.card-glow:hover::before { opacity: 1; }
+
+/* Breathe for scroll cue */
+.animate-breathe { animation: breathe 2.8s ease-in-out infinite; }
+
+/* Preserve 3d for card tilt */
+.preserve-3d { transform-style: preserve-3d; }
+
+/* focus-visible ring using gold */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scroll-triggered clip reveal animation */
+.animate-clip-reveal-h {
+  animation: clip-reveal-h 0.9s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+/* ============================================================
+   Dynamic Time Themes  (data-theme on <html>)
+   ============================================================ */
+
+/* Morning (6h–11h) — champagne light, soft warmth */
+[data-theme="morning"] {
+  --color-gold:      #c6a15b;
+  --color-gold-300:  #ddc18a;
+  --color-ivory:     #fdfaf4;
+  --color-pearl:     #f2ede5;
+  --color-noir:      #17120d;
+  background-color: #fdfaf4;
+}
+
+/* Afternoon (11h–17h) — default gold, no override needed */
+[data-theme="afternoon"] {}
+
+/* Evening (17h–22h) — rose glow, warm surfaces */
+[data-theme="evening"] {
+  --color-gold:      #c08081;
+  --color-gold-300:  #daa0a0;
+  --color-gold-600:  #9f6364;
+  --color-champagne: #f0d8d8;
+  --color-ivory:     #faf4f4;
+  --color-pearl:     #f2e8e8;
+}
+[data-theme="evening"] .gold-text {
+  background: linear-gradient(100deg, #9f6364, #f0d8d8 38%, #c08081 60%, #daa0a0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="evening"] .gold-surface {
+  background: linear-gradient(135deg, #daa0a0 0%, #c08081 48%, #9f6364 100%);
+}
+
+/* Night (22h–6h) — noir luxury dark mode */
+[data-theme="night"] {
+  --color-ivory:     #17120d;
+  --color-noir:      #fbf8f2;
+  --color-pearl:     #221b14;
+  --color-beige:     #2a2018;
+  background-color: #17120d;
+  color: #fbf8f2;
+}
+[data-theme="night"] body { background-color: #17120d; color: #fbf8f2; }
+[data-theme="night"] .bg-white { background-color: #221b14 !important; }
+[data-theme="night"] .bg-pearl\/40 { background-color: rgba(34,27,20,0.4) !important; }
+[data-theme="night"] .text-noir { color: #fbf8f2 !important; }
+[data-theme="night"] .text-noir\/60 { color: rgba(251,248,242,0.6) !important; }
+[data-theme="night"] .text-noir\/55 { color: rgba(251,248,242,0.55) !important; }
+[data-theme="night"] .text-noir\/80 { color: rgba(251,248,242,0.8) !important; }
+[data-theme="night"] .shadow-soft {
+  box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
+}
+
+/* Smooth theme transition on body */
+body {
+  transition: background-color 1.2s ease, color 0.8s ease;
 }

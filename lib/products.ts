@@ -141,6 +141,12 @@ export async function fetchInstagramPosts(): Promise<InstagramPost[]> {
   }
 }
 
+export async function fetchTrending(): Promise<Product[]> {
+  const data = await apiFetch(`${BASE}/trending?limit=4`);
+  // Endpoint returns either Product objects or { product_slug, views } — normalize handles either
+  return data.map(normalize);
+}
+
 export async function fetchSiteSettings(): Promise<Record<string, string>> {
   try {
     const res = await fetch(`${BASE}/settings`, { next: { revalidate: 300 } });

@@ -4,12 +4,15 @@ import { Marquee } from "@/components/sections/Marquee";
 import { Collections } from "@/components/sections/Collections";
 import { BestSellers } from "@/components/sections/BestSellers";
 import { NewArrivals } from "@/components/sections/NewArrivals";
+import { TrendingNow } from "@/components/sections/TrendingNow";
+import { PersonalizedSectionServer } from "@/components/sections/PersonalizedSectionServer";
 import { InstagramGallery } from "@/components/sections/InstagramGallery";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { Wholesale } from "@/components/sections/Wholesale";
 import { FAQ } from "@/components/sections/FAQ";
 import { WhatsAppCTA } from "@/components/sections/WhatsAppCTA";
+import { JewelryAdvisorServer } from "@/components/ui/JewelryAdvisorServer";
 
 function SectionSkeleton() {
   return (
@@ -46,6 +49,12 @@ export default function Home() {
       <Suspense fallback={<SectionSkeleton />}>
         <NewArrivals />
       </Suspense>
+      <Suspense fallback={<SectionSkeleton />}>
+        <TrendingNow />
+      </Suspense>
+      <Suspense fallback={null}>
+        <PersonalizedSectionServer />
+      </Suspense>
       <InstagramGallery />
       <Suspense fallback={<div className="py-24" />}>
         <Testimonials />
@@ -56,6 +65,9 @@ export default function Home() {
         <FAQ />
       </Suspense>
       <WhatsAppCTA />
+      <Suspense fallback={null}>
+        <JewelryAdvisorServer />
+      </Suspense>
     </>
   );
 }

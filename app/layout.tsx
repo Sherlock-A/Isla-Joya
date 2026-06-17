@@ -9,6 +9,9 @@ import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
 import { Analytics } from "@/components/layout/Analytics";
 import { AnnouncementBanner } from "@/components/ui/AnnouncementBanner";
 import { CookieBanner } from "@/components/ui/CookieBanner";
+import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
+import { ThemeApplier } from "@/components/layout/ThemeApplier";
+import { HeatmapTracker } from "@/components/layout/HeatmapTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -81,6 +84,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WhatsAppFloat />
         <Analytics />
         <CookieBanner />
+        <ExitIntentModal />
+        <ThemeApplier />
+        <HeatmapTracker />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

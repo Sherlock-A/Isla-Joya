@@ -9,7 +9,10 @@ export type WhatsAppSource =
   | "product_page"
   | "wholesale"
   | "footer"
-  | "cta_section";
+  | "cta_section"
+  | "exit_intent"
+  | "sticky_bar"
+  | "advisor";
 
 /** Pre-written, on-brand message templates (intimate yet aspirational). */
 export const waMessages = {
