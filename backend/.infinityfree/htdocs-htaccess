@@ -23,29 +23,3 @@
     php_value memory_limit 256M
     php_value max_execution_time 60
 </IfModule>
-
-# ── Laravel environment variables ──────────────────────────────────────────────
-SetEnv APP_NAME "Isla Joya"
-SetEnv APP_ENV production
-SetEnv APP_KEY "base64:JrNUKEjxGtfCd0fKtd6VXom0CBmiYGSa/+8mAq+IQyU="
-SetEnv APP_DEBUG true
-SetEnv APP_URL "https://islajoya.kesug.com"
-SetEnv APP_LOCALE en
-SetEnv BCRYPT_ROUNDS 12
-SetEnv LOG_CHANNEL single
-SetEnv LOG_LEVEL error
-SetEnv DB_CONNECTION mysql
-SetEnv DB_HOST "gateway01.eu-central-1.prod.aws.tidbcloud.com"
-SetEnv DB_PORT 4000
-SetEnv DB_DATABASE islajoya
-SetEnv DB_USERNAME "66eWerAuTa9UQCP.root"
-SetEnv DB_PASSWORD "bg0eoqCiAnIbx11N"
-SetEnv MYSQL_ATTR_SSL_CA "/etc/ssl/certs/ca-certificates.crt"
-SetEnv FILESYSTEM_DISK infinityfree
-SetEnv SESSION_DRIVER file
-SetEnv SESSION_LIFETIME 120
-SetEnv CACHE_STORE file
-SetEnv QUEUE_CONNECTION sync
-SetEnv FRONTEND_URL "https://islajoya.vercel.app"
-SetEnv REVALIDATE_SECRET "465b87c4386899d23a5e91bb9b8fb68b48904b86be8d2e55"
-SetEnv MAIL_MAILER log
