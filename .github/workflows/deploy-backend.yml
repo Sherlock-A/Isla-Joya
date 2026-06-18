@@ -1,0 +1,77 @@
+name: Deploy Backend to InfinityFree
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+
+jobs:
+  deploy-laravel:
+    name: Deploy laravel/ via FTP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, mbstring, bcmath, gd, zip, intl, opcache
+
+      - name: composer install --no-dev
+        working-directory: backend
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Deploy to /laravel/
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./backend/
+          server-dir: /laravel/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/tests/**
+            **/node_modules/**
+            **/.env
+            **/.env.*
+            !**/.env.example
+            **/public/**
+            **/.infinityfree/**
+            **/deploy-infinityfree.ps1
+            **/laravel.zip
+            **/htdocs.zip
+            **/__laravel_tmp__/**
+            **/__htdocs_tmp__/**
+            **/fly.toml
+            **/Dockerfile
+            **/.docker/**
+            **/.dockerignore
+            **/render.yaml
+
+  deploy-htdocs:
+    name: Deploy htdocs/ via FTP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare htdocs staging directory
+        run: |
+          mkdir -p /tmp/htdocs
+          cp backend/.infinityfree/htdocs-index.php /tmp/htdocs/index.php
+          cp backend/.infinityfree/htdocs-htaccess  /tmp/htdocs/.htaccess
+          rsync -a --exclude='index.php' --exclude='.htaccess' backend/public/ /tmp/htdocs/
+
+      - name: Deploy to /htdocs/
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: /tmp/htdocs/
+          server-dir: /htdocs/
