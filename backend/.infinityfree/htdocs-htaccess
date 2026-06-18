@@ -28,7 +28,7 @@
 SetEnv APP_NAME "Isla Joya"
 SetEnv APP_ENV production
 SetEnv APP_KEY "base64:JrNUKEjxGtfCd0fKtd6VXom0CBmiYGSa/+8mAq+IQyU="
-SetEnv APP_DEBUG false
+SetEnv APP_DEBUG true
 SetEnv APP_URL "https://islajoya.kesug.com"
 SetEnv APP_LOCALE en
 SetEnv BCRYPT_ROUNDS 12
