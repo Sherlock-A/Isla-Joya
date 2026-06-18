@@ -24,6 +24,9 @@ jobs:
         working-directory: backend
         run: composer install --no-dev --optimize-autoloader --no-interaction
 
+      - name: Inject env.php into bootstrap/
+        run: cp backend/.infinityfree/env.php backend/bootstrap/env.php
+
       - name: Deploy to /laravel/
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
