@@ -64,7 +64,7 @@ async function apiFetch(url: string): Promise<Record<string, unknown>[]> {
   try {
     const res = await fetch(url, { next: { revalidate: 60, tags: ["products"] } });
     if (!res.ok) return [];
-    return res.json();
+    return res.json().catch(() => []);
   } catch {
     return [];
   }
