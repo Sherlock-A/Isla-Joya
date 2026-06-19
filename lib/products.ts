@@ -106,7 +106,7 @@ export async function fetchTestimonials(): Promise<Testimonial[]> {
   try {
     const res = await fetch(`${BASE}/testimonials`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
-    return res.json();
+    return res.json().catch(() => []);
   } catch {
     return [];
   }
@@ -116,7 +116,7 @@ export async function fetchFaqs(): Promise<FaqItem[]> {
   try {
     const res = await fetch(`${BASE}/faqs`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
-    return res.json();
+    return res.json().catch(() => []);
   } catch {
     return [];
   }
@@ -135,7 +135,7 @@ export async function fetchInstagramPosts(): Promise<InstagramPost[]> {
   try {
     const res = await fetch(`${BASE}/instagram-posts`, { next: { revalidate: 300, tags: ["instagram"] } });
     if (!res.ok) return [];
-    return res.json();
+    return res.json().catch(() => []);
   } catch {
     return [];
   }
